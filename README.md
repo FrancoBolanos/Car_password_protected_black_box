@@ -4,6 +4,7 @@ The program can be simulated in https://lcgamboa.github.io
 -Select PicGenios board  
 -Select oscillator frequency: 20 MHz  
 -Select microcontroller: PIC6F877A  
+-Load the .hex file  
   
 Project: Car Black Box  
 Author: Franco Jesús Bolaños Gainsborg  

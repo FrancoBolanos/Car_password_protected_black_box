@@ -1,25 +1,26 @@
 /* Project: Car Black Box
- * Author: Franco Jesús Bolaños Gainsborg
- * Developed using MPLAB XPRESS IDE and MPLABX IDE
- * Description: Car black box password protected interface that allows to save, read and delete events records from EEPROM.
- * Each time the gear state changes, the current time, speed and gear state are saved in the EEPROM. Password is read from EEPROM
- * Only the last 10 events are saved in EEPROM. The oldest event is replaced by the newest.
- *
- * Details:
- * Microcontroller: PIC18F877A
- * Oscilator frquency: 20 MHz
- * Potentiometer connected to AN0 controls speed
- * RB0: Generate crash state
- * RB1 and RB2: Generate gear state change
- * RB3 or RB4: Access login screen
- * 4 password digit is a combination of RB3 and RB4. RB5 allows to go back. If no button is pressed for 3 seconds, system returns to dashboard
- * After 3 wrong password attempts, login screen is blocked for 15 minutes
- *
- * In menu screen: RB3 allows to go up, RB4 allows to go down and RB5 allows to select a logs_option
- * In view logs option: RB3 allows to go up, RB4 allows to go down and RB5 allows to return to the dashboard
- * In clear logs option: the EEPROM registers designed to hold the events records
- * In change password: System asks to enter a password twice. If they match, access password is changed and saved in EEPROM
- */
+* Author: Franco Jesús Bolaños Gainsborg
+* Developed using MPLAB XPRESS IDE and MPLABX IDE
+* Description: Car black box password protected interface that allows to save, read and delete events records from EEPROM.
+* Each time the gear state changes, the current time, speed and gear state are saved in the EEPROM. Password is read from EEPROM
+* Only the last 10 events are saved in EEPROM. The oldest event is replaced by the newest.
+*
+* Details:
+* Microcontroller: PIC18F877A
+* Oscillator frequency: 20 MHz
+* Potentiometer connected to AN0 controls speed
+* RB0: Generate crash state
+* RB1 and RB2: Generate gear state change
+* RB3 or RB4: Access login screen
+* The 4 password digit is a combination of RB3 and RB4. RB5 allows you to go back. If no button is pressed for 3 seconds, system returns to dashboard
+* After 3 wrong password attempts, login screen is blocked for 15 minutes
+*
+* In menu screen: RB3 allows to go up, RB4 allows to go down and RB5 allows to select a logs_option
+* In view logs option: RB3 allows to go up, RB4 allows to go down and RB5 allows to return to the dashboard
+* In clear logs option: the EEPROM registers designed to hold the events records
+* In change password: System asks to enter a password twice. If they match, access password is changed and saved in EEPROM
+*/
+
 
 
 #include <xc.h>
@@ -146,7 +147,7 @@ void main(void) {
                 break;
             case warning_flag:
                 clcd_print("WRONG PASSWORD",LINE1(1));
-                clcd_putch(attempts+'0',LINE2(0));    //Shows reamining attempts
+                clcd_putch(attempts+'0',LINE2(0));    //Shows reamaining attempts
                 clcd_print("Attempt remain",LINE2(2));
                 break;
             case blocked_flag:
@@ -233,8 +234,8 @@ void main(void) {
                             attempts--;
                             screen_flag=warning_flag;
                             start_timer0_time_out(3);               //Set time to return to dashboard
-                            start_timer0_recover_attempts(15,0);    //Set remaining time to restore the attempts. Login is not blocked, but since there are less than 3 attempts, time starts to run. Time resets to 15 minutes if a new attemtpt is done
-                            if (attempts==0){                       //If there are 0 attempts, system replaces watning screen with block screen
+                            start_timer0_recover_attempts(15,0);    //Set remaining time to restore the attempts. Login is not blocked, but since there are less than 3 attempts, time starts to run. Time resets to 15 minutes if a new attempt is done
+                            if (attempts==0){                       //If there are 0 attempts, system replaces warning screen with block screen
                                 screen_flag=blocked_flag;
                             }
                         } else{                                     //If the password is correct, remaining time is set to 0, attempts are restored and system goes to the menu
